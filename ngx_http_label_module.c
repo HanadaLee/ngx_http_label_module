@@ -158,7 +158,7 @@ ngx_http_label_init_main_conf(ngx_conf_t *cf, void *conf)
     hash.name = "labels_hash";
     hash.pool = cf->pool;
 
-    if (lmcf->labels->nelts) {
+    if (lmcf->labels && lmcf->labels->nelts) {
         hash.hash = &lmcf->hash;
         hash.temp_pool = NULL;
 
@@ -329,7 +329,7 @@ ngx_http_labels_variable(ngx_http_request_t *r,
     u_char         *p, *buf;
 
     lmcf = ngx_http_get_module_main_conf(r, ngx_http_label_module);
-    if (lmcf == NULL || lmcf->labels->nelts == 0) {
+    if (lmcf == NULL || lmcf->labels == NULL || lmcf->labels->nelts == 0) {
         v->not_found = 1;
         return NGX_OK;
     }
