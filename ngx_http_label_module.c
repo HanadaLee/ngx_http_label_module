@@ -162,8 +162,8 @@ ngx_http_label_init_main_conf(ngx_conf_t *cf, void *conf)
         hash.hash = &lmcf->hash;
         hash.temp_pool = NULL;
 
-        if (ngx_hash_init(&hash, lmcf->hash_keys.keys.elts,
-                        lmcf->hash_keys.keys.nelts) != NGX_OK)
+        if (ngx_hash_init(&hash, lmcf->hash_keys->keys.elts,
+                        lmcf->hash_keys->keys.nelts) != NGX_OK)
         {
             return NGX_CONF_ERROR;
         }
@@ -251,7 +251,7 @@ ngx_http_label(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
         lmcf->hash_keys->pool = cf->pool;
         lmcf->hash_keys->temp_pool = cf->pool;
 
-        if (ngx_hash_keys_array_init(&lmcf->hash_keys, NGX_HASH_SMALL)
+        if (ngx_hash_keys_array_init(lmcf->hash_keys, NGX_HASH_SMALL)
             != NGX_OK)
         {
             return NGX_CONF_ERROR;
@@ -263,27 +263,6 @@ ngx_http_label(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
     }
 
     return NGX_CONF_OK;
-}
-
-
-static ngx_int_t
-ngx_http_label_init(ngx_conf_t *cf)
-{
-    ngx_http_variable_t *var;
-
-    var = ngx_http_add_variable(cf, &ngx_string("label_"), NGX_HTTP_VAR_PREFIX);
-    if (var == NULL) {
-        return NGX_ERROR;
-    }
-    var->get_handler = ngx_http_label_prefix_variable;
-
-    var = ngx_http_add_variable(cf, &ngx_string("labels"), 0);
-    if (var == NULL) {
-        return NGX_ERROR;
-    }
-    var->get_handler = ngx_http_labels_variable;
-
-    return NGX_OK;
 }
 
 
