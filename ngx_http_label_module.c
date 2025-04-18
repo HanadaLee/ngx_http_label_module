@@ -288,7 +288,7 @@ ngx_http_label_prefix_variable(ngx_http_request_t *r,
     }
 
     lmcf = ngx_http_get_module_main_conf(r, ngx_http_label_module);
-    if (lmcf == NULL || lmcf->labels == NULL || lmcf->hash.hash == NULL) {
+    if (lmcf == NULL || lmcf->labels == NULL || lmcf->hash->size == 0) {
         v->not_found = 1;
         return NGX_OK;
     }
