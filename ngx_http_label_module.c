@@ -203,6 +203,7 @@ ngx_http_label(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
                 "are included");
             return NGX_CONF_ERROR;
         }
+
         *p = ngx_tolower(*p);
     }
 
@@ -243,7 +244,7 @@ ngx_http_label(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
 
     if (lmcf->hash_keys == NULL) {
         lmcf->hash_keys = ngx_pcalloc(cf->temp_pool,
-            sizeof(ngx_hash_keys_arrays_t));
+                                      sizeof(ngx_hash_keys_arrays_t));
         if (lmcf->hash_keys == NULL) {
             return NGX_CONF_ERROR;
         }
@@ -277,7 +278,7 @@ ngx_http_label_prefix_variable(ngx_http_request_t *r,
     u_char         *label;
     size_t          len;
     ngx_keyval_t   *kv;
-    ngx_uint_t      key; 
+    ngx_uint_t      key;
 
     len = name->len - (sizeof("label_") - 1);
     label = name->data + sizeof("label_") - 1;
